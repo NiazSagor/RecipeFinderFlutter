@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_finder/core/theme/app_pallete.dart';
 import 'package:recipe_finder/features/home/presentation/widgets/banner.dart';
 import 'package:recipe_finder/features/home/presentation/widgets/home_page_header.dart';
+import 'package:recipe_finder/features/home/presentation/widgets/recipe_item.dart';
 import 'package:recipe_finder/features/home/presentation/widgets/search_bar.dart';
 
 class MyAppHomePage extends StatefulWidget {
@@ -12,6 +13,23 @@ class MyAppHomePage extends StatefulWidget {
 }
 
 class _MyAppHomePageState extends State<MyAppHomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  List<String> get categories => [
+    "All",
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+    "Snacks",
+    "Drinks",
+    "Desserts",
+  ];
+
+  late ValueNotifier<String> selectedCategory = ValueNotifier(categories[0]);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,18 +58,84 @@ class _MyAppHomePageState extends State<MyAppHomePage> {
                       ),
                     ),
                     // todo get the categories from repository
-                    // StreamBuilder(
-                    //     stream: stream,
-                    //     builder: (BuildContext context,
-                    //         AsyncSnapshot snapshot) {
-                    //       if (snapshot.hasData) {
-                    //         return widgetToBuild;
-                    //       } else if (snapshot.hasError) {
-                    //         return Icon(Icons.error_outline);
-                    //       } else {
-                    //         return CircularProgressIndicator();
-                    //       }
-                    //     })
+                    ValueListenableBuilder(
+                      valueListenable: selectedCategory,
+                      builder: (context, value, child) {
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: categories.map((category) {
+                              return GestureDetector(
+                                onTap: () {
+                                  selectedCategory.value = category;
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: selectedCategory.value == category
+                                        ? AppPallete.primaryColor
+                                        : null,
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 10,
+                                  ),
+                                  margin: EdgeInsets.only(right: 15),
+                                  child: Text(
+                                    category,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: selectedCategory.value == category
+                                          ? Colors.white
+                                          : Colors.grey.shade600,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Quick & Easy",
+                          style: TextStyle(
+                            fontSize: 20,
+                            letterSpacing: 0.1,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        TextButton(
+                          onPressed: () {
+                            // todo
+                          },
+                          child: Text(
+                            "View All",
+                            style: TextStyle(
+                              color: AppPallete.bannerColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.only(top: 5),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: categories.map((e) {
+                            return RecipeItem();
+                          }).toList(),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

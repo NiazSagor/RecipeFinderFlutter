@@ -24,7 +24,7 @@ class RecipeItem extends StatelessWidget {
                     color: Colors.yellow,
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(""),
+                      image: NetworkImage("https://cdn.dummyjson.com/recipe-images/3.webp"),
                     ),
                   ),
                 ),

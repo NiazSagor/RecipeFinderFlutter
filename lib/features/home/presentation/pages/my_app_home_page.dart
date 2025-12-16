@@ -4,6 +4,7 @@ import 'package:recipe_finder/features/home/presentation/widgets/banner.dart';
 import 'package:recipe_finder/features/home/presentation/widgets/home_page_header.dart';
 import 'package:recipe_finder/features/home/presentation/widgets/recipe_item.dart';
 import 'package:recipe_finder/features/home/presentation/widgets/search_bar.dart';
+import 'package:recipe_finder/features/home/presentation/widgets/view_all_recipes.dart';
 
 class MyAppHomePage extends StatefulWidget {
   const MyAppHomePage({super.key});
@@ -39,6 +40,7 @@ class _MyAppHomePageState extends State<MyAppHomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 10),
               Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
@@ -112,7 +114,12 @@ class _MyAppHomePageState extends State<MyAppHomePage> {
 
                         TextButton(
                           onPressed: () {
-                            // todo
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ViewAllRecipes(),
+                              ),
+                            );
                           },
                           child: Text(
                             "View All",
